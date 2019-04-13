@@ -51,6 +51,36 @@ class ContatoFactory{
 		$stmt->execute();
 	}
 
+	public function updateName($id, $contato){
+		$insert ="UPDATE contatos
+					SET nome = :nome
+					WHERE id = :id";
+
+		$stmt = $this->file_db->prepare($insert); 
+
+		//bind parametro-statement
+		$stmt->bindParam(':id',$id);
+		$stmt->bindParam(':nome',$contato->name);
+		$stmt->bindParam(':email',$contato->email);
+
+		$stmt->execute();
+	}
+
+	public function updateEmail($id, $contato){
+		$insert ="UPDATE contatos
+					SET email = :email
+					WHERE id = :id";
+
+		$stmt = $this->file_db->prepare($insert); 
+
+		//bind parametro-statement
+		$stmt->bindParam(':id',$id);
+		$stmt->bindParam(':nome',$contato->name);
+		$stmt->bindParam(':email',$contato->email);
+
+		$stmt->execute();
+	}
+
 	public function busca($contato) {
 		
 		$busca = "SELECT email FROM contatos WHERE :email = email";
