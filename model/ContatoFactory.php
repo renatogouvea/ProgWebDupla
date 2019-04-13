@@ -20,9 +20,10 @@ class ContatoFactory{
 	
 	public function createTable(){
     	$this->file_db->exec("CREATE TABLE IF NOT EXISTS contatos (
-			id INTEGER PRIMARY KEY, 
+			id INTEGER AUTO_INCREMENT, 
 			nome TEXT, 
-			email TEXT)");
+			email TEXT,
+			PRIMARY KEY (id))");
 	}
 
 	public function inserirContato($contato){
@@ -68,7 +69,7 @@ class ContatoFactory{
 	}
 
 	public function listagem(){
-		$busca = "SELECT nome, email FROM contatos";
+		$busca = "SELECT * FROM contatos";
 
 		$stmt = $this->file_db->prepare($busca); 
 		$stmt->execute();

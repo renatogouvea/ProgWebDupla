@@ -11,7 +11,10 @@
 	<div align="center">
 		<table  border="1px"  width="800">
 			<tr>
-				
+				<th>
+					ID
+				</th>
+
 				<th>
 					Nome
 				</th>
@@ -25,14 +28,24 @@
 						$array = $lista[$i];
 						$a = $array['nome'];
 						$b = $array['email'];
+						$c = $array['id'];
 				?>
 				<tr>
+					<td>
+						<?php echo($c); ?>
+					</td>
+
 					<td>
 						<?php echo($a); ?>
 					</td>
 					<td>
 						<?php echo($b); ?>
 					</td>
+
+					<td>
+						<a href ="index.php?action=edicao&id=<?php echo($c)?>">Editar</a>
+					</td>	
+					
 				</tr>
 				<?php } ?>
 		</table>
