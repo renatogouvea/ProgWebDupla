@@ -26,14 +26,15 @@ class controle{
 	}
 
 	public function newContactAction(){
-		// Verificar nome e email
+		if (!isset($_POST['name']) && empty($_POST['name']) && !isset($_POST['email']) && empty($_POST['email'])){
+			$error = 'Dados ausentes';
+			$this->error($error);
+			exit();
+		}
+
         $name = $_POST['name'];
         $email = $_POST['email'];
-        if (empty($name) || empty($email)){
-           $error = 'Campo vazio';
-           $this->error($error);
-           exit();
-        }
+        
        	// instancia contato
 		$contato = new contato($name, $email);
 	
@@ -61,6 +62,13 @@ class controle{
 	}
 	
 	public function editContactAction(){
+		if (!isset($_POST['name']) && empty($_POST['name']) && !isset($_POST['email']) && empty($_POST['email'])){
+			$error = 'Dados ausentes';
+			$this->error($error);
+			exit();
+		}
+
+
 		$name = $_POST['name'];
         $email = $_POST['email'];
         $contato = new contato($name, $email);
