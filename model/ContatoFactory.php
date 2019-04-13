@@ -61,8 +61,7 @@ class ContatoFactory{
 		//bind parametro-statement
 		$stmt->bindParam(':id',$id);
 		$stmt->bindParam(':nome',$contato->name);
-		$stmt->bindParam(':email',$contato->email);
-
+		
 		$stmt->execute();
 	}
 
@@ -75,7 +74,6 @@ class ContatoFactory{
 
 		//bind parametro-statement
 		$stmt->bindParam(':id',$id);
-		$stmt->bindParam(':nome',$contato->name);
 		$stmt->bindParam(':email',$contato->email);
 
 		$stmt->execute();
@@ -96,6 +94,20 @@ class ContatoFactory{
 			return true;
 		else
 			return false;
+	}
+
+	public function selectId($id){
+		$busca = "SELECT * FROM contatos WHERE id = :id";
+
+		$stmt = $this->file_db->prepare($busca);
+
+		$stmt->bindParam(':id',$id);
+
+		$stmt->execute();
+
+		$array = $stmt->fetch();
+
+		return $array;
 	}
 
 	public function listagem(){
