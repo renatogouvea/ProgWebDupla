@@ -9,12 +9,12 @@
     
 </head>
 <body>
-    <div>
-        <a href ="index.php?action=formnovo">Cadastrar</a>
+    <div> 
+        <h1>
+            <?php
+                echo ($error);
+            ?>
+        </h1>
     </div>
-
-	<div>
-		<a href ="index.php?action=lista">Exibir lista</a>
-	</div>
 </body>
 </html>

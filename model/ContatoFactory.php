@@ -1,8 +1,6 @@
 <?php
-
 namespace model;
 use PDO;
-
 class ContatoFactory{
 	private $file_db;
 
@@ -12,24 +10,22 @@ class ContatoFactory{
 		} catch (PDOException $e) {
 			echo 'Connection failed: ' . $e->getMessage();
 		}
-
 		$this->file_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		
 		$this->createTable();
 	}
 	
 	public function createTable(){
-    	$this->file_db->exec("CREATE TABLE IF NOT EXISTS contatos (
-			id INTEGER AUTO_INCREMENT, 
-			nome TEXT, 
-			email TEXT,
-			PRIMARY KEY (id))");
+    	$this->file_db->exec("CREATE TABLE IF NOT EXISTS contato (
+			id INTEGER PRIMARY KEY AUTOINCREMENT, 
+			name TEXT, 
+			email TEXT)");
 	}
 
-	public function inserirContato($contato){
-		$busca = $this->busca($contato);
+	public function insertContato($contato){
+		$search = $this->search($contato);
 		// verifica se o email já está cadastrado
-		if ($busca) {
+		if ($search) {
 			return true;
 		}
 		else {
@@ -39,43 +35,78 @@ class ContatoFactory{
 	}
 
 	public function insert($contato){
-		$insert ="INSERT INTO contatos(nome, email)
-					VALUES(:nome, :email);";
+		$insert ="INSERT INTO contato(name, email)
+					VALUES(:name, :email);";
 
 		$stmt = $this->file_db->prepare($insert); 
-
 		//bind parametro-statement
-		$stmt->bindParam(':nome',$contato->name);
+		$stmt->bindParam(':name',$contato->name);
 		$stmt->bindParam(':email',$contato->email);
-
 		$stmt->execute();
 	}
 
-	public function busca($contato) {
-		
-		$busca = "SELECT email FROM contatos WHERE :email = email";
-
-		$stmt = $this->file_db->prepare($busca); 
-
-		$stmt->bindParam(':email', $contato->email);
-		
+	public function updateName($id, $contato){
+		$insert ="UPDATE contato
+					SET name = :name
+					WHERE id = :id";
+		$stmt = $this->file_db->prepare($insert); 
+		//bind parametro-statement
+		$stmt->bindParam(':id',$id);
+		$stmt->bindParam(':name',$contato->name);
 		$stmt->execute();
-		$email = $stmt->fetch();
+	}
 
+	public function updateEmail($id, $contato){
+		$search = $this->search($contato);
+		// verifica se o email já está cadastrado
+		if ($search) {
+			return true;
+		}
+		else {
+			$this->updateEmailReady($id, $contato);
+			return false;
+		}
+	}
+
+	public function updateEmailReady($id, $contato){
+		$insert ="UPDATE contato
+					SET email = :email
+					WHERE id = :id";
+
+		$stmt = $this->file_db->prepare($insert); 
+		//bind parametro-statement
+		$stmt->bindParam(':id',$id);
+		$stmt->bindParam(':email',$contato->email);
+		$stmt->execute();
+	}
+
+
+	/**
+	*Busca no banco um contato pelo email
+	*@return true se o contato está cadastrado
+	*@return false do contrário.
+	*/
+	public function search($contato) {
+		$busca = "SELECT email FROM contato WHERE :email = email";
+		
+		$stmt = $this->file_db->prepare($busca); 	
+		$stmt->bindParam(':email', $contato->email);
+		$stmt->execute();
+
+		$email = $stmt->fetch();
 		if ($email[0] == $contato->email)
 			return true;
 		else
 			return false;
 	}
 
-	public function listagem(){
-		$busca = "SELECT * FROM contatos";
+	public function listing(){
+		$busca = "SELECT * FROM contato";
 
 		$stmt = $this->file_db->prepare($busca); 
 		$stmt->execute();
 
 		$array = $stmt->fetchAll();
-
 		return $array;
 	}
 }

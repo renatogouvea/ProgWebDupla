@@ -2,4 +2,4 @@
 
 require 'includes/bootstrap.php'; 
 
-new Ex4\App ();
+new Ex4\app ();

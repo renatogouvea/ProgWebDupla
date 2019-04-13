@@ -24,9 +24,9 @@
 			
 			</tr>
 				<?php 
-					for ($i = 0; $i < sizeof($lista); $i++){
-						$array = $lista[$i];
-						$a = $array['nome'];
+					for ($i = 0; $i < sizeof($list); $i++){
+						$array = $list[$i];
+						$a = $array['name'];
 						$b = $array['email'];
 						$c = $array['id'];
 				?>
@@ -43,7 +43,7 @@
 					</td>
 
 					<td>
-						<a href ="index.php?action=edicao&id=<?php echo($c)?>">Editar</a>
+						<a href ="index.php?action=editContactForm&id=<?php echo($c)?>">Editar</a>
 					</td>	
 					
 				</tr>

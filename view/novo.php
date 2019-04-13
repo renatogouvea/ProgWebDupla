@@ -10,8 +10,8 @@
 </head>
 <body>
     <div>
-        <form method="post" action="index.php?action=novo" >
-            <div><input type="text" name="nome" placeholder="Nome" /></div>
+        <form method="post" action="index.php?action=newContact" >
+            <div><input type="text" name="name" placeholder="Nome" /></div>
             <div><input type="text" name="email" placeholder="Email" /></div>
             <div><input type="submit" value="Cadastrar"/></div>
         </form>

@@ -19,64 +19,123 @@ class controle{
         exit();
     }
 
-	public function novoAction(){
+    //Handle request actions
+
+    public function newContactFormAction(){
+		include 'view/novo.php';	
+	}
+
+	public function newContactAction(){
 		// Verificar nome e email
-        $name = $_POST['nome'];
+        $name = $_POST['name'];
         $email = $_POST['email'];
         if (empty($name) || empty($email)){
-           $this-> mostraFalha();
-            exit();
+           $error = 'Campo vazio';
+           $this->error($error);
+           exit();
         }
        	// instancia contato
 		$contato = new contato($name, $email);
 	
 		//chama o ContatoFactory
 		$contatoFactory = new ContatoFactory();
-		$insertResult = $contatoFactory->inserirContato($contato);
+		$insertResult = $contatoFactory->insertContato($contato);
 		if ($insertResult)
 			$this->error('Cadastro já existente!');
 		else
 			$this->error('Cadastro realizado com sucesso!');
 	}
 		
-	//require views adequadas
-	public function formnovo(){
-		include 'views/novo.php';	
+
+
+	public function editContactFormAction(){
+		$id = isset($_GET['id']) ? $_GET['id'] : '0';
+		intval($id);
+		if($id ==0){
+			$error ='ID inválido';
+			$this->error($error);
+		}
+		else{
+			include 'view/editar.php';
+		}
 	}
 	
-	public function lista(){
+	public function editContactAction(){
+		$name = $_POST['name'];
+        $email = $_POST['email'];
+        $contato = new contato($name, $email);
+		$id = isset($_GET['id']) ? $_GET['id'] : '0';
+
+		intval($id);
+
+		if($id==0){
+			$error ='ID inválido';
+			$this->error($error);
+			exit();
+		}
+		
 		$contatoFactory = new ContatoFactory();
-		$lista = $contatoFactory->listagem();
-		include 'views/lista.php';
+
+		if(!empty($email)){
+			$updateResult = $contatoFactory->updateEmail($id, $contato);
+		}
+
+		if($updateResult){
+			$error = 'Email ja existente';
+			$this->error($error);
+			exit();
+		}
+
+		if (!empty($name)){
+			$contatoFactory->updateName($id, $contato);
+		}
+
+		$error = 'Dados atualizados com sucesso';
+		$this->error($error);
+	}
+
+	public function listAction(){
+		$contatoFactory = new ContatoFactory();
+		$list = $contatoFactory->listing();
+		include 'view/lista.php';
 	}
 	
 	public function indexAction(){
-		include 'views/index.php';
+		include 'view/index.php';
 	}
 	
-	public function error($erro){
-		include 'views/mostra.php';
+	public function error($error){
+		include 'view/mostra.php';
 	}
 		
 	public function handleRequest (){
 		$action = isset($_GET['action']) ? $_GET['action'] : 'index';
 			
 		switch($action){
-			case 'novo':
-				$this->novoAction();
-				break;
-
 			default:
 				$this->indexAction();
 				break;
 
-			case 'formnovo':
-				$this->formnovo();
+			case 'newContactForm':
+				$this->newContactFormAction();
 				break;
 
-			case 'lista':
-				$this->lista();
+			case 'newContact':
+				$this->newContactAction();
 				break;
+
+			case 'list':
+				$this->listAction();
+				break;
+			
+			case 'editContactForm':
+				$this->editContactFormAction();
+				break;
+					
+			case 'editContact':
+				$this->editContactAction();
+				break;
+
 			
 		}	
 	}

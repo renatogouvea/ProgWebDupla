@@ -4,7 +4,7 @@ namespace Ex4;
 
 use controller\controle;
 
-class App{
+class app{
 	public function __construct(){
 		new controle();
 	}
