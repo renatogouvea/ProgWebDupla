@@ -52,11 +52,16 @@ class controle{
 	public function editContactFormAction(){
 		$id = isset($_GET['id']) ? $_GET['id'] : '0';
 		intval($id);
+
 		if($id ==0){
 			$error ='ID inválido';
 			$this->error($error);
 		}
 		else{
+			$contatoFactory = new ContatoFactory();
+			$selectResult = $contatoFactory->selectId($id);
+			$name = $selectResult[1];
+			$email = $selectResult[2];
 			include 'view/editar.php';
 		}
 	}

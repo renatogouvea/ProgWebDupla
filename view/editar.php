@@ -10,11 +10,36 @@
 </head>
 <body>
     <div>
+        <h3>Informações atuais</h3>
+        <table  border="1px"  width="800">
+            <tr>
+                <th>
+                    Nome
+                </th>
+                <th>
+                    E-mail
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <?php echo($name); ?>
+                </td>
+
+                <td>
+                    <?php echo($email); ?>
+                </td>
+            </tr>
+        </table>
+   
+    </div>
+
+    <div>
     	<h3>Editar contato </h3>
         <form method="post" action="index.php?action=editContact&id=<?php echo($id) ?>" >
             <div><input type="text" name="name" placeholder="novo nome" /></div>
             <div><input type="text" name="email" placeholder="novo email" /></div>
             <div><input type="submit" value="Cadastrar"/></div>
+
         </form>
     </div>
 </body>
