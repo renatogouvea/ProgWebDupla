@@ -100,6 +100,22 @@ class ContatoFactory{
 			return false;
 	}
 
+	public function selectId($id){
+		$busca = "SELECT * FROM contato WHERE id = :id";
+		$stmt = $this->file_db->prepare($busca);
+		$stmt->bindParam(':id',$id);
+		$stmt->execute();
+		$array = $stmt->fetch();
+		return $array;
+	}
+
+	public function deleteContact($id){
+		$search = "DELETE FROM contato WHERE id = :id";
+		$stmt = $this->file_db->prepare($search);
+		$stmt->bindParam(':id',$id);
+		$stmt->execute();
+	}
+
 	public function listing(){
 		$busca = "SELECT * FROM contato";
 

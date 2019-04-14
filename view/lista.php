@@ -21,6 +21,9 @@
 				<th>
 					E-mail
 				</th>
+				<th>
+					Ações
+				</th>
 			
 			</tr>
 				<?php 
@@ -44,6 +47,7 @@
 
 					<td>
 						<a href ="index.php?action=editContactForm&id=<?php echo($c)?>">Editar</a>
+						<a href ="index.php?action=deleteContact&id=<?php echo($c)?>">Remover</a>
 					</td>	
 					
 				</tr>

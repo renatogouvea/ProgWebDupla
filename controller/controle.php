@@ -26,7 +26,7 @@ class controle{
 	}
 
 	public function newContactAction(){
-		if (!isset($_POST['name']) && empty($_POST['name']) && !isset($_POST['email']) && empty($_POST['email'])){
+		if (!isset($_POST['name']) || empty($_POST['name']) || !isset($_POST['email']) || empty($_POST['email'])){
 			$error = 'Dados ausentes';
 			$this->error($error);
 			exit();
@@ -86,13 +86,13 @@ class controle{
 
 		if(!empty($email)){
 			$updateResult = $contatoFactory->updateEmail($id, $contato);
+			if($updateResult){
+				$error = 'Email ja existente';
+				$this->error($error);
+				exit();
+			}
 		}
-
-		if($updateResult){
-			$error = 'Email ja existente';
-			$this->error($error);
-			exit();
-		}
+		
 
 		if (!empty($name)){
 			$contatoFactory->updateName($id, $contato);
@@ -100,6 +100,17 @@ class controle{
 
 		$error = 'Dados atualizados com sucesso';
 		$this->error($error);
+	}
+
+	public function deleteContactAction(){
+		$id = isset($_GET['id']) ? $_GET['id'] : '0';
+
+		intval($id);
+
+		$contatoFactory = new ContatoFactory();
+		$contatoFactory->deleteContact($id);
+		$this->listAction();
+
 	}
 
 	public function listAction(){
@@ -142,6 +153,10 @@ class controle{
 					
 			case 'editContact':
 				$this->editContactAction();
+				break;
+
+			case 'deleteContact':
+				$this->deleteContactAction();
 				break;
 
 			

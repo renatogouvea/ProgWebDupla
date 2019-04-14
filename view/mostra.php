@@ -15,6 +15,8 @@
                 echo ($error);
             ?>
         </h1>
+        <a href ="index.php?action=dasdas">Homepage</a>
+
     </div>
 </body>
 </html>
